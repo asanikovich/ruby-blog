@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  http_basic_authenticate_with name: "alsan", password: "alsan", except: [:index, :show]
+  http_basic_authenticate_with name: "alsan", password: "alsan", except: [:index, :show, :like]
 
   def index
     @articles = Article.all
@@ -59,10 +59,27 @@ class ArticlesController < ApplicationController
   end
 
   def like
+    if session[:likes].nil?
+      session[:likes] = []
+    end
     @article = Article.find(params[:id])
-    @article.likes = @article.likes + 1
+    if session[:likes].include? params[:id]
+      @article.likes -= 1
+      session[:likes].delete(params[:id])
+    else
+      session[:likes] << params[:id]
+      if @article.likes.nil?
+        @article.likes = 1
+      else
+        @article.likes += 1
+      end
+    end
 
-    redirect_to articles_path
+
+
+
+    @article.save
+    redirect_to @article
   end
 
   private

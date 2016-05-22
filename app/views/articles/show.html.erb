@@ -9,6 +9,13 @@
 </p>
 
 <img src="<%= image_url(@article.img) %>" style="max-height: 300px">
+<br>
+<% if session[:likes] and session[:likes].include? params[:id] %>
+  <%= link_to 'UnLike', article_path(@article) + '/like/' %> <%= @article.likes %>
+<% else  %>
+    <%= link_to 'Like', article_path(@article) + '/like/' %> <%= @article.likes %>
+<% end %>
+<br>
 
 <h2>Comments</h2>
 <%= render @article.comments %>
