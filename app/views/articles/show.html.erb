@@ -8,6 +8,8 @@
   <%= @article.text %>
 </p>
 
+<img src="<%= image_url(@article.img) %>" style="max-height: 300px">
+
 <h2>Comments</h2>
 <%= render @article.comments %>
 

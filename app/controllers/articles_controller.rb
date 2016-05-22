@@ -20,6 +20,13 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(article_params)
 
+    uploaded_io = params[:article][:image]
+    name = Time.now.to_i.to_s + uploaded_io.original_filename
+    File.open(Rails.root.join('public', 'images', name), 'wb') do |file|
+      file.write(uploaded_io.read)
+    end
+    @article.img = name
+
     if @article.save
       redirect_to @article
     else
@@ -29,6 +36,13 @@ class ArticlesController < ApplicationController
 
   def update
     @article = Article.find(params[:id])
+
+    uploaded_io = params[:article][:image]
+    name = Time.now.to_i.to_s + uploaded_io.original_filename
+    File.open(Rails.root.join('public', 'images', name), 'wb') do |file|
+      file.write(uploaded_io.read)
+    end
+    @article.img = name
 
     if @article.update(article_params)
       redirect_to @article
@@ -40,6 +54,13 @@ class ArticlesController < ApplicationController
   def destroy
     @article = Article.find(params[:id])
     @article.destroy
+
+    redirect_to articles_path
+  end
+
+  def like
+    @article = Article.find(params[:id])
+    @article.likes = @article.likes + 1
 
     redirect_to articles_path
   end

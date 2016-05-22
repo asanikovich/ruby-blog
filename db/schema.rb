@@ -11,13 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160518195106) do
+ActiveRecord::Schema.define(version: 20160522133301) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "title",      limit: 255
     t.text     "text",       limit: 65535
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.string   "img",        limit: 255
+    t.integer  "likes",      limit: 4
   end
 
   create_table "comments", force: :cascade do |t|
@@ -26,6 +28,7 @@ ActiveRecord::Schema.define(version: 20160518195106) do
     t.integer  "article_id", limit: 4
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.integer  "likes",      limit: 4
   end
 
   add_index "comments", ["article_id"], name: "index_comments_on_article_id", using: :btree
