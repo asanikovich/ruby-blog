@@ -9,7 +9,14 @@
 </p>
 
 <p>
+  <% if session[:comments] and session[:comments].include? comment.id.to_s %>
+    <%= link_to 'UnLike', article_comment_path(comment.article, comment) + '/like/' %> <%= comment.likes %>
+  <% else %>
+    <%= link_to 'Like', article_comment_path(comment.article, comment) + '/like/' %> <%= comment.likes %>
+  <% end %>
+  |
   <%= link_to 'Destroy Comment', [comment.article, comment],
               method: :delete,
               data: { confirm: 'Are you sure?' } %>
 </p>
+<hr>

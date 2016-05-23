@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   end
 
   get 'articles/:id/like' => 'articles#like'
+  get 'articles/:article_id/comments/:id/like' => 'comments#like'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
